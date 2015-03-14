@@ -126,21 +126,8 @@
 
         this.end = 0;
 
-        this.get = function() {
-            return childrens;
-        };
-
         this.add = function(child) {
             childrens.push(child);
-        };
-
-        this.remove = function(child) {
-            for (var i = 0; i < childrens.length; i++) {
-                if (childrens[i] === child) {
-                    childrens.splice(i, 1);
-                    return;
-                }
-            }
         };
 
         this.render = function(options) {
@@ -161,11 +148,10 @@
         this.parts = [];
         this.filters = {};
         this.functions = {};
-
-        this.parseExpression = function(/* expression, data */) {
-            return null;
-        };
     }
+
+    Engine.prototype.parseExpression = function(/* expression, data */) {
+    };
 
     Engine.prototype.addDefinition = function(name, start, definition) {
         this.parts.push({
@@ -324,9 +310,6 @@
     });
 
     // Define basic functions
-    TwigEngine.addFunction('do_nothing', function(val) {
-        return val;
-    });
 
     // Define basic filters
     TwigEngine.addFilter('default', function(val, defaults) {

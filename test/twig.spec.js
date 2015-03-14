@@ -16,6 +16,12 @@
 
                 expect(template.render({ x: 'abc' })).toEqual('jokojabcoijo');
             });
+
+            it('should throw error because there is not closed expression', function() {
+                expect(function() {
+                    Twig.parse('jokoj{{ xoijo');
+                }).toThrow();
+            });
         });
 
         describe('Blocks', function() {
@@ -26,6 +32,12 @@
 
                 expect(function() {
                     Twig.parse('jokokokokoj{% manamana %}o{% endmanamana %}');
+                }).toThrow();
+            });
+
+            it('should throw error because there is not closed block opening', function() {
+                expect(function() {
+                    Twig.parse('jokoj{% xoijo');
                 }).toThrow();
             });
 
