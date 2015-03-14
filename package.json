@@ -1,8 +1,15 @@
 {
   "name": "UltiTwigJS",
-  "preferGlobal": "true",
+  "author": "Dawid 'Rangoo' Rusnak",
+  "homepage": "https://github.com/Rangoo94/ulti-twigjs",
+  "bugs": "https://github.com/Rangoo94/ulti-twigjs/issues",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rangoo94/ulti-twigjs.git"
+  },
   "scripts": {
-    "coveralls": "./node_modules/coveralls/bin/coveralls.js < lcov.info"
+    "coveralls": "cat ./lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
