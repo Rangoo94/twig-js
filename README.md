@@ -1,5 +1,7 @@
 # UltiTwigJS
 
+[![Travis](https://travis-ci.org/Rangoo94/ulti-twigjs.svg)](https://travis-ci.org/Rangoo94/ulti-twigjs.svg)
+
 This library allow to parse Twig templates in JS. When it will be finished, you'll get generated DOM structure, which will be dynamically changed when variable will be changed. The main difference to other TwigJS libraries is that it will not need to render again whole structure, instead of that it will only change needed parts.
 
 ## Development
