@@ -2,7 +2,7 @@
 
 [![Travis](https://travis-ci.org/Rangoo94/ulti-twigjs.svg)](https://travis-ci.org/Rangoo94/ulti-twigjs.svg)
 [![Code Climate](https://codeclimate.com/github/Rangoo94/ulti-twigjs/badges/gpa.svg)](https://codeclimate.com/github/Rangoo94/ulti-twigjs)
-[![Test Coverage](https://img.shields.io/coveralls/Rangoo94/ulti-twigjs/master.svg)](https://coveralls.io/r/Rangoo94/ulti-twigjs?branch=master)
+[![Coverage Status](https://coveralls.io/repos/Rangoo94/ulti-twigjs/badge.svg)](https://coveralls.io/r/Rangoo94/ulti-twigjs)
 
 This library allow to parse Twig templates in JS. When it will be finished, you'll get generated DOM structure, which will be dynamically changed when variable will be changed. The main difference to other TwigJS libraries is that it will not need to render again whole structure, instead of that it will only change needed parts.
 
