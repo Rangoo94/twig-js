@@ -2,7 +2,6 @@
   "name": "UltiTwigJS",
   "preferGlobal": "true",
   "scripts": {
-    "test": "./node_modules/grunt-cli/bin/grunt test",
     "coveralls": "./node_modules/coveralls/bin/coveralls.js < lcov.info"
   },
   "devDependencies": {
