@@ -60,7 +60,7 @@
             return result;
         };
 
-        this.findAnyPart = function(startIndex, end, endIndex) {
+        this.findAnyPart = function(startIndex, end) {
             var parts = [],
                 result = {
                     text: '',
