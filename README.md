@@ -1,6 +1,6 @@
 # UltiTwigJS
 
-[![Travis](https://travis-ci.org/Rangoo94/ulti-twigjs.svg)](https://travis-ci.org/Rangoo94/ulti-twigjs.svg)
+[![Travis](https://travis-ci.org/Rangoo94/ulti-twigjs.svg)](https://travis-ci.org/Rangoo94/ulti-twigjs)
 [![Code Climate](https://codeclimate.com/github/Rangoo94/ulti-twigjs/badges/gpa.svg)](https://codeclimate.com/github/Rangoo94/ulti-twigjs)
 [![Coverage Status](https://coveralls.io/repos/Rangoo94/ulti-twigjs/badge.svg)](https://coveralls.io/r/Rangoo94/ulti-twigjs)
 
