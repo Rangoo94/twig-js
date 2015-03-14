@@ -36,6 +36,83 @@
     }
 
 
+    // Understands code structure
+    function Code(code, engine) {
+        this.length = code.length;
+
+        this.indexOf = function(str, startIndex) {
+            return code.indexOf(str, startIndex);
+        };
+
+        this.findPart = function(startIndex, type, rule) {
+            var result = startIndex;
+
+            if (!rule) {
+                rule = function() {
+                    return true;
+                };
+            }
+
+            do {
+                result = code.indexOf(engine.parts[type].start, result);
+            } while (result !== -1 && !rule(result, this));
+
+            return result;
+        };
+
+        this.findAnyPart = function(startIndex, end) {
+            var parts = [],
+                result = {
+                    text: '',
+                    index: 0,
+                    type: null,
+                    end: false
+                },
+                idx,
+                partIdx;
+
+            for (idx in engine.parts) {
+                if (engine.parts.hasOwnProperty(idx)) {
+                    parts.push({
+                        name: idx,
+                        start: engine.parts[idx].start
+                    });
+                }
+            }
+
+            for (idx = startIndex || 0; idx < this.length; idx++) {
+                result.index = idx;
+
+                if (end !== void 0 && this.substr(idx, end.length) === end) {
+                    result.index = idx + end.length;
+                    result.end = true;
+                    return result;
+                }
+
+                for (partIdx = 0; partIdx < parts.length; partIdx++) {
+                    if (this.substr(idx, parts[partIdx].start.length) === parts[partIdx].start) {
+                        result.type = parts[partIdx].name;
+                        return result;
+                    }
+                }
+
+                result.text += this.charAt(idx);
+            }
+
+            result.end = true;
+            return result;
+        };
+
+        this.charAt = function(index) {
+            return code.charAt(index);
+        };
+
+        this.substr = function(start, length) {
+            return code.substr(start, length);
+        };
+    }
+
+
     // Basic template engine
 
     // Understands template structure
@@ -107,57 +184,37 @@
 
     Engine.prototype.parse = function(code, end, index) {
         var template = new TemplateContainer(),
-            startSet = [],
-            startMap = {},
-            currentText = '',
-            parsed = false,
+            current,
             el,
-            i,
-            j;
+            i;
+
+        code = new Code(code, this);
 
         index = index || 0;
 
-        for (i = 0; i < this.parts.length; i++) {
-            startSet.push(this.parts[i].start);
-            startMap[this.parts[i].start] = this.parts[i].definition;
-        }
-
         for (i = index; i < code.length; i++) {
-            if (end !== void 0 && code.substr(i, end.length) === end) {
-                if (currentText.length) {
-                    template.add(new TextNode(currentText));
-                }
+            current = code.findAnyPart(i, end);
 
-                template.end = i + end.length;
-                return template;
+            if (current.text.length) {
+                template.add(new TextNode(current.text));
             }
 
-            parsed = false;
+            if (current.type) {
+                el = new this.parts[current.type].definition(current.index, code, this);
 
-            for (j = 0; j < startSet.length; j++) {
-                if (code.substr(i, startSet[j].length) === startSet[j]) {
-                    if (currentText.length) {
-                        template.add(new TextNode(currentText));
-                        currentText = '';
-                    }
-
-                    el = new startMap[startSet[j]](i, code, this);
-                    template.add(el);
-                    i = el.end;
-                    parsed = true;
-                }
+                template.add(el);
+                i = el.end;
+            } else {
+                i = current.index;
             }
 
-            if (!parsed) {
-                currentText += code.charAt(i);
+            if (current.end) {
+                break;
             }
         }
 
-        if (currentText.length) {
-            template.add(new TextNode(currentText));
-        }
+        template.end = i;
 
-        template.end = code.length;
         return template;
     };
 

@@ -26,19 +26,19 @@ module.exports = function(grunt) {
             },
             src: [
                 'Gruntfile.js',
-                'dev/**/*.js',
+                'src/**/*.js',
                 'test/**/*.js'
             ]
         },
         jscs: {
             src: [
                 'Gruntfile.js',
-                'dev/**/*.js',
+                'src/**/*.js',
                 'test/**/*.js'
             ]
         },
         jasmine: {
-            src: 'dev/**/*.js',
+            src: 'src/**/*.js',
             options: {
                 template: require('grunt-template-jasmine-istanbul'),
                 templateOptions: {
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
                             dir: '.'
                         }
                     },
-                    files: 'dev/**/*.js',
+                    files: 'src/**/*.js',
                     thresholds: {
                         lines: 0,
                         statements: 0,

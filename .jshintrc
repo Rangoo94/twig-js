@@ -30,7 +30,7 @@
     "curly": true,
     "forin": true,
     "immed": true,
-    "maxcomplexity": 12,
+    "maxcomplexity": 8,
     "noarg": true,
     "noempty": true,
     "nonew": true,
