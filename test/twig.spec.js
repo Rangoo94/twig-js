@@ -50,11 +50,11 @@
 
                 it('should throw error because `if` block has been not closed', function() {
                     expect(function() {
-                        Twig.parse('jokoj{% if x %}o{% if y %}i{% endif %}jo');
+                        Twig.parse('jokoj{% if x %}oijo');
                     }).toThrow();
 
                     expect(function() {
-                        Twig.parse('jokoj{% if x %o{% if y %}i{% endif %}jo{% endif %}');
+                        Twig.parse('jokoj{% if x %}o{% if y %}i{% endif %}jo');
                     }).toThrow();
                 });
             });

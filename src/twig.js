@@ -60,13 +60,14 @@
             return result;
         };
 
-        this.findAnyPart = function(startIndex, end) {
+        this.findAnyPart = function(startIndex, end, endIndex) {
             var parts = [],
                 result = {
                     text: '',
                     index: 0,
                     type: null,
-                    end: false
+                    end: false,
+                    codeEnd: false
                 },
                 idx,
                 partIdx;
@@ -97,6 +98,10 @@
                 }
 
                 result.text += this.charAt(idx);
+            }
+
+            if (end !== void 0) {
+                throw new Error('Closing not found');
             }
 
             result.end = true;
@@ -188,7 +193,9 @@
             el,
             i;
 
-        code = new Code(code, this);
+        if (!(code instanceof Code)) {
+            code = new Code(code, this);
+        }
 
         index = index || 0;
 
