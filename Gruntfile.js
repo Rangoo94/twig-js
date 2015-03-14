@@ -59,11 +59,6 @@ module.exports = function(grunt) {
                 },
                 specs: 'test/**/*.js'
             }
-        },
-        coveralls: {
-            options: {
-                src: 'lcov.info'
-            }
         }
     });
 
