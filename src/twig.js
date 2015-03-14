@@ -10,7 +10,7 @@
     function ltrim(str) {
         var start = 0;
 
-        while (str.charAt(start) === ' ' || str.charAt(start) === '\n' || str.charAt(start) === '\t') {
+        while ([ ' ', '\n', '\t' ].indexOf(str.charAt(start)) !== -1) {
             start++;
         }
 
@@ -24,7 +24,7 @@
     function rtrim(str) {
         var end = str.length - 1;
 
-        while (str.charAt(end) === ' ' || str.charAt(end) === '\n' || str.charAt(end) === '\t') {
+        while ([ ' ', '\n', '\t' ].indexOf(str.charAt(end)) !== -1) {
             end--;
         }
 
