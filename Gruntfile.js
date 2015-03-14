@@ -43,7 +43,12 @@ module.exports = function(grunt) {
                 template: require('grunt-template-jasmine-istanbul'),
                 templateOptions: {
                     coverage: 'coverage.json',
-                    report: 'none',
+                    report: {
+                        type: 'lcovonly',
+                        options: {
+                            dir: '.'
+                        }
+                    },
                     files: 'dev/**/*.js',
                     thresholds: {
                         lines: 0,
@@ -52,10 +57,12 @@ module.exports = function(grunt) {
                         functions: 0
                     }
                 },
-                junit: {
-                    path: 'junit'
-                },
                 specs: 'test/**/*.js'
+            }
+        },
+        coveralls: {
+            options: {
+                src: 'lcov.info'
             }
         }
     });

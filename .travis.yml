@@ -5,5 +5,7 @@ before_install:
   - npm install
 script:
   - ./node_modules/grunt-cli/bin/grunt test
+after_script:
+  - ./node_modules/grunt-cli/bin/grunt coveralls
 notifications:
   email: false
