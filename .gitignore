@@ -1,0 +1,14 @@
+# Intellij
+.project
+.idea
+
+# Sublime files
+.DS*
+
+# NodeJS Modules
+node_modules/
+
+# Generated files
+coverage.json
+_SpecRunner.html
+junit/
