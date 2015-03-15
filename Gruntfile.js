@@ -37,27 +37,21 @@ module.exports = function(grunt) {
                 'test/**/*.js'
             ]
         },
-        jasmine: {
-            src: 'src/**/*.js',
-            options: {
-                template: require('grunt-template-jasmine-istanbul'),
-                templateOptions: {
-                    coverage: 'coverage.json',
-                    report: {
-                        type: 'lcovonly',
-                        options: {
-                            dir: '.'
-                        }
-                    },
-                    files: 'src/**/*.js',
-                    thresholds: {
-                        lines: 0,
-                        statements: 0,
-                        branches: 0,
-                        functions: 0
-                    }
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec',
+                    require: 'test/blanket'
                 },
-                specs: 'test/**/*.js'
+                src: [ '!test/blanket.js', 'test/**/*.js' ]
+            },
+            coverage: {
+                options: {
+                    reporter: 'lcov',
+                    quiet: true,
+                    captureFile: 'lcov.info'
+                },
+                src: [ '!test/blanket.js', 'test/**/*.js' ]
             }
         }
     });
@@ -68,6 +62,6 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('test', [
-        'jasmine'
+        'mochaTest'
     ]);
 };

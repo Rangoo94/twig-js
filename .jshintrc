@@ -16,7 +16,7 @@
         "require": false
     },
 
-    "browser": true,
+    "node": true,
 
     "camelcase": true,
     "eqeqeq": true,
@@ -30,7 +30,7 @@
     "curly": true,
     "forin": true,
     "immed": true,
-    "maxcomplexity": 9,
+    "maxcomplexity": 6,
     "noarg": true,
     "noempty": true,
     "nonew": true,
