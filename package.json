@@ -9,7 +9,7 @@
     "url": "https://github.com/Rangoo94/ulti-twigjs.git"
   },
   "scripts": {
-    "coveralls": "./node_modules/.bin/mocha --recursive -r ./test/blanket -R mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
+    "coveralls": "./node_modules/.bin/mocha --recursive -r ./test/blanket -R mocha-lcov-reporter | ./node_modules/.bin/coveralls"
   },
   "devDependencies": {
     "blanket": "^1.1.6",
