@@ -6,6 +6,8 @@ before_install:
 script:
   - ./node_modules/grunt-cli/bin/grunt test
 after_script:
+  # Travis debug
+  - ./node_modules/.bin/mocha --recursive -r ./test/blanket -R mocha-lcov-reporter
   - npm run-script coveralls
 notifications:
   email: false
