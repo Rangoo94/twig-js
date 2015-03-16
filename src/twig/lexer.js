@@ -8,27 +8,27 @@
         WHITESPACES = [ ' ', '\t', '\n' ];
 
     function findWhitespace(str, index) {
-        while (index < str.length && WHITESPACES.indexOf(str.charAt(index)) === -1) {
+        while (index < str.length) {
             index++;
+
+            if (WHITESPACES.indexOf(str.charAt(index)) !== -1) {
+                return index;
+            }
         }
 
-        if (str.length === index) {
-            return -1;
-        }
-
-        return index;
+        return -1;
     }
 
     function findNotWhitespace(str, index) {
-        while (index < str.length && WHITESPACES.indexOf(str.charAt(index)) !== -1) {
+        while (index < str.length) {
             index++;
+
+            if (WHITESPACES.indexOf(str.charAt(index)) === -1) {
+                return index;
+            }
         }
 
-        if (str.length === index) {
-            return -1;
-        }
-
-        return index;
+        return -1;
     }
 
     //TwigLexer.add(function(code, index) {

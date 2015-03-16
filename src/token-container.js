@@ -5,12 +5,6 @@
         this.tokens = tokens || [];
     }
 
-    function prepareTypeChecker(expected) {
-        return function(token) {
-            return expected === token.type;
-        };
-    }
-
     TokenContainer.prototype = {
         add: function(token) {
             this.tokens.push(token);
@@ -29,30 +23,12 @@
             }
         },
 
-        each: function(func) {
-            for (var i = 0; i < this.tokens; i++) {
-                func(this.tokens[i], i, this.tokens);
-            }
-        },
-
         slice: function(start, end) {
             return new TokenContainer(this.tokens.slice(start, end));
         },
 
-        sliceTo: function(start, end) {
-            var container = this.indexOf(end, start);
-
-            if (container === -1) {
-                return null;
-            }
-
-            return this.slice(start, container);
-        },
-
         indexOf: function(el, start) {
-            if (typeof el === 'string') {
-                el = prepareTypeChecker(el);
-            } else if (typeof el !== 'function') {
+            if (typeof el !== 'function') {
                 return this.tokens.indexOf(el, start);
             }
 

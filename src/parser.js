@@ -9,24 +9,16 @@
                 result.add('plain-text', this.text);
             }
         };
-
-        this.getInitialResult = function() {
-            return '';
-        };
     }
 
     Parser.prototype = {
         parse: function(tokens) {
-            var result = new CodePart(),
+            var result = CodePart.createBase(),
                 token,
                 i;
 
             tokens.go = function(n) {
                 i = n;
-            };
-
-            tokens.skip = function(n) {
-                i += n;
             };
 
             for (i = 0; i < tokens.tokens.length; i++) {

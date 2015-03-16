@@ -40,16 +40,7 @@ module.exports = function(grunt) {
         mochaTest: {
             test: {
                 options: {
-                    reporter: 'spec',
-                    require: 'test/blanket'
-                },
-                src: [ '!test/blanket.js', 'test/**/*.js' ]
-            },
-            coverage: {
-                options: {
-                    reporter: 'lcov',
-                    quiet: true,
-                    captureFile: 'lcov.info'
+                    reporter: 'spec'
                 },
                 src: [ '!test/blanket.js', 'test/**/*.js' ]
             }
@@ -62,6 +53,6 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('test', [
-        'mochaTest:test'
+        'mochaTest'
     ]);
 };

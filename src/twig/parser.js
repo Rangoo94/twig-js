@@ -74,7 +74,6 @@
 
             i = currentIndex + 1;
 
-            currentToken = tokens.tokenAt(currentIndex);
             currentIndex = tokens.indexOf(findBlock('endif'), i);
 
             if (currentIndex === -1) {
