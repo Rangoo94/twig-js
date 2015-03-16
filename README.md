@@ -1,10 +1,13 @@
-# UltiTwigJS
+# TwigJS
 
-[![Travis](https://travis-ci.org/Rangoo94/ulti-twigjs.svg)](https://travis-ci.org/Rangoo94/ulti-twigjs)
-[![Code Climate](https://codeclimate.com/github/Rangoo94/ulti-twigjs/badges/gpa.svg)](https://codeclimate.com/github/Rangoo94/ulti-twigjs)
-[![Coverage Status](https://coveralls.io/repos/Rangoo94/ulti-twigjs/badge.svg)](https://coveralls.io/r/Rangoo94/ulti-twigjs)
+[![Travis](https://travis-ci.org/Rangoo94/twig-js.svg)](https://travis-ci.org/Rangoo94/twig-js)
+[![Code Climate](https://codeclimate.com/github/Rangoo94/twig-js/badges/gpa.svg)](https://codeclimate.com/github/Rangoo94/twig-js)
 
-This library allow to parse Twig templates in JS. When it will be finished, you'll get generated DOM structure, which will be dynamically changed when variable will be changed. The main difference to other TwigJS libraries is that it will not need to render again whole structure, instead of that it will only change needed parts.
+This library allow to parse Twig templates in JS.
+
+## Goal
+
+When it will be finished, you'll get JS templates, which will allow to generate DOM structure, which will be dynamically changed when variable will be changed. The main difference to other TwigJS libraries is that it will not need to render again whole structure, instead of that it will only change needed parts.
 
 ## Development
 
