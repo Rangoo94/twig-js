@@ -35,5 +35,11 @@
                 twigLexer.parse('lorem ipsum{% if x %} dolor sit amet{% endif  ');
             }).to.throwError();
         });
+
+        it('should throw error that block name hasn\'t been found', function() {
+            expect(function() {
+                console.log(JSON.stringify(twigLexer.parse('lorem ipsum{%    %} dolor sit amet{% endif %}').tokens));
+            }).to.throwError();
+        });
     });
 }());

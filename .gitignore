@@ -9,7 +9,4 @@
 node_modules/
 
 # Generated files
-coverage.json
-_SpecRunner.html
-junit/
-lcov.info
+coverage.html

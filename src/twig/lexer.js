@@ -49,7 +49,7 @@
 
             index = findNotWhitespace(code, index);
 
-            if (index === -1) {
+            if (index === -1 || code.substr(index, 2) === '%}') {
                 throw new Error('Incorrect block: name not found'); // @TODO: add line and column
             }
 

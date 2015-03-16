@@ -47,7 +47,7 @@
 
         it('should parse full `if` (with `elseif` and `else`) structure', function() {
             var tokens = twigLexer.parse(
-                    '{% if x %}lorem ipsum dolor sit amet{% elseif y %}abc{% else %}different{% endif %}'
+                    '{% if  x %}lorem ipsum dolor sit amet{% elseif y %}abc{% else %}different{% endif %}'
                 ),
                 structure;
 
