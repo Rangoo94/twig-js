@@ -33,7 +33,7 @@
   "disallowYodaConditions": true,
   "disallowTrailingComma": true,
   "validateParameterSeparator": ", ",
-  //  "maximumLineLength": 120,// @TODO: fix because of translations
+  "maximumLineLength": 120,
   "disallowKeywordsOnNewLine": ["else"],
   "disallowMultipleLineStrings": true,
   "disallowPaddingNewlinesInBlocks": true,

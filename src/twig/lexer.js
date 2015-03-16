@@ -5,13 +5,7 @@
         trim = require('../trim'),
         TwigLexer = new Lexer(),
 
-        WHITESPACES = [ ' ', '\t', '\n' ],
-        TOKENS;
-
-    TOKENS = {
-        NODE_START: 1,
-        BLOCK: 2
-    };
+        WHITESPACES = [ ' ', '\t', '\n' ];
 
     function findWhitespace(str, index) {
         while (index < str.length && WHITESPACES.indexOf(str.charAt(index)) === -1) {
