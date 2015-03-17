@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var CodePart = require('./code-part');
+    var CodeStructure = require('./code-structure');
 
     /**
      * It should parse everything to basic structure elements:
@@ -30,10 +30,10 @@
          * Parse tokens to structure against known definitions
          *
          * @param {TokenContainer} tokens
-         * @returns {CodePart}
+         * @returns {CodeStructure}
          */
         parse: function(tokens) {
-            var result = CodePart.createBase(),
+            var result = CodeStructure.createBase(),
                 token,
                 i;
 

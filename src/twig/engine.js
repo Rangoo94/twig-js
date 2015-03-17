@@ -6,6 +6,7 @@
         twigParser = require('../parser'),
         twigEngine = new Engine(twigLexer, twigParser);
 
+
     twigEngine.setInitialResult(function() {
         return '';
     });

@@ -6,26 +6,26 @@
      *
      * @constructor
      */
-    function CodePart() {
+    function CodeStructure() {
         this.children = [];
     }
 
     /**
      * Create root code part
      *
-     * @returns {CodePart}
+     * @returns {CodeStructure}
      */
-    CodePart.createBase = function() {
-        return new CodePart();
+    CodeStructure.createBase = function() {
+        return new CodeStructure();
     };
 
-    CodePart.prototype = {
+    CodeStructure.prototype = {
         /**
          * Add new element to this structure
          *
          * @param {string} type
          * @param {*} [data]
-         * @param {CodePart} [codePart]
+         * @param {CodeStructure} [codePart]
          */
         add: function(type, data, codePart) {
             this.children.push({
@@ -36,5 +36,5 @@
         }
     };
 
-    module.exports = CodePart;
+    module.exports = CodeStructure;
 }());
