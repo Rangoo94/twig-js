@@ -26,6 +26,8 @@
 
         /**
          * Get initial result for showing
+         *
+         * @returns {*}
          */
         getInitialResult: function() {
         },
@@ -33,7 +35,7 @@
         /**
          * Alias for parsing plain code to structure
          *
-         * @param {string} code
+         * @param {String} code
          * @returns {CodeStructure}
          */
         parseToStructure: function(code) {
@@ -43,7 +45,7 @@
         /**
          * Alias for `parse` method to parse plain code
          *
-         * @param {string} code
+         * @param {String} code
          * @returns {*}
          */
         parseFromString: function(code) {
@@ -77,7 +79,7 @@
         /**
          * Add new definition how to parse specified token in structure
          *
-         * @param {string} type
+         * @param {String} type
          * @param {Function} func
          */
         addDefinition: function(type, func) {

@@ -24,7 +24,7 @@
         /**
          * Prepare and add plain-text token to container
          *
-         * @param {string} text
+         * @param {String} text
          */
         addPlainText: function(text) {
             if (text.length) {

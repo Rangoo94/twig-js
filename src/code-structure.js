@@ -23,7 +23,7 @@
         /**
          * Add new element to this structure
          *
-         * @param {string} type
+         * @param {String} type
          * @param {*} [data]
          * @param {CodeStructure} [codePart]
          */

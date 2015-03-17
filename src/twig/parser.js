@@ -7,7 +7,7 @@
     /**
      * Build rule to detect if token is specified block
      *
-     * @param {string} name
+     * @param {String} name
      * @returns {Function}
      */
     function findBlock(name) {
@@ -24,7 +24,7 @@
     /**
      * Add new block definition
      *
-     * @param {string} name
+     * @param {String} name
      * @param {Function} func  understands how this block should be detected within tokens
      */
     twigParser.addBlock = function(name, func) {
@@ -35,7 +35,7 @@
      * Add new filter available in engine
      *
      * @TODO: move to rendering engine
-     * @param {string} name
+     * @param {String} name
      * @param {Function} func
      */
     twigParser.addFilter = function(name, func) {
@@ -46,7 +46,7 @@
      * Add new function available in engine
      *
      * @TODO: move to rendering engine
-     * @param {string} name
+     * @param {String} name
      * @param {Function} func
      */
     twigParser.addFunction = function(name, func) {

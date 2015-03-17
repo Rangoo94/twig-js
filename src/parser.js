@@ -57,7 +57,7 @@
         /**
          * Add new known definition of token
          *
-         * @param {string} type
+         * @param {String} type
          * @param {Function} func
          */
         addDefinition: function(type, func) {

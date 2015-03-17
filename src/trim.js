@@ -4,8 +4,8 @@
     /**
      * Trim left side of string
      *
-     * @param {string} str
-     * @returns {string}
+     * @param {String} str
+     * @returns {String}
      */
     function ltrim(str) {
         var start = 0;
@@ -24,8 +24,8 @@
     /**
      * Trim right side of string
      *
-     * @param {string} str
-     * @returns {string}
+     * @param {String} str
+     * @returns {String}
      */
     function rtrim(str) {
         var end = str.length - 1;
@@ -44,8 +44,8 @@
     /**
      * Trim both sides of string
      *
-     * @param {string} str
-     * @returns {string}
+     * @param {String} str
+     * @returns {String}
      */
     module.exports = function trim(str) {
         return ltrim(rtrim(str));

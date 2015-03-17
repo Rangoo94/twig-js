@@ -25,7 +25,7 @@
         /**
          * Parse code by known definitions to tokens
          *
-         * @param {string} code
+         * @param {String} code
          * @returns {TokenContainer}
          */
         parse: function(code) {
