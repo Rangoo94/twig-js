@@ -4,6 +4,12 @@
     var Parser = require('../parser'),
         twigParser = new Parser();
 
+    /**
+     * Build rule to detect if token is specified block
+     *
+     * @param {string} name
+     * @returns {Function}
+     */
     function findBlock(name) {
         return function(token) {
             return token.type === 'block' && token.name === name;
@@ -11,24 +17,50 @@
     }
 
     twigParser.blocks = {};
-    twigParser.filters = {};
-    twigParser.functions = {};
+    twigParser.filters = {}; // @TODO: move to rendering engine
+    twigParser.functions = {}; // @TODO: move to rendering engine
 
 
+    /**
+     * Add new block definition
+     *
+     * @param {string} name
+     * @param {Function} func  understands how this block should be detected within tokens
+     */
     twigParser.addBlock = function(name, func) {
         twigParser.blocks[name] = func;
     };
 
+    /**
+     * Add new filter available in engine
+     *
+     * @TODO: move to rendering engine
+     * @param {string} name
+     * @param {Function} func
+     */
     twigParser.addFilter = function(name, func) {
         twigParser.filters[name] = func;
     };
 
+    /**
+     * Add new function available in engine
+     *
+     * @TODO: move to rendering engine
+     * @param {string} name
+     * @param {Function} func
+     */
     twigParser.addFunction = function(name, func) {
         twigParser.functions[name] = func;
     };
 
     // Basic definitions
 
+    /**
+     * Define how `block` should be parsed
+     * Search if there is available block and call its definition
+     *
+     * @throws {Error}  if it's unknown block
+     */
     twigParser.addDefinition('block', function(result, i, tokens, parser) {
         if (!twigParser.blocks[this.name]) {
             throw new Error('Incorrect block: `' + this.name + '` definition not found');
@@ -39,6 +71,11 @@
 
     // Block definitions
 
+    /**
+     * Define conditional block
+     *
+     * @throws {Error} if closing is not found
+     */
     twigParser.addBlock('if', function(result, i, tokens, parser) {
         var currentNegations = [],
             currentToken = this,

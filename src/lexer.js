@@ -3,15 +3,31 @@
 
     var TokenContainer = require('./token-container');
 
+    /**
+     * Understands how to prepare tokens from plain code
+     *
+     * @constructor
+     */
     function Lexer() {
         this.definitions = [];
     }
 
     Lexer.prototype = {
+        /**
+         * Add new known definition of tokens
+         *
+         * @param {Function} generator  it should return null if it's not its part, or Object { ..., end: endIndex }
+         */
         add: function(generator) {
             this.definitions.push(generator);
         },
 
+        /**
+         * Parse code by known definitions to tokens
+         *
+         * @param {string} code
+         * @returns {TokenContainer}
+         */
         parse: function(code) {
             var tokens = new TokenContainer(),
                 result;

@@ -3,6 +3,20 @@
 
     var CodePart = require('./code-part');
 
+    /**
+     * It should parse everything to basic structure elements:
+     * - if
+     * - expression
+     * - loop
+     * - plain-text
+     * - node (and other node connected things like attributes) - @TODO
+     */
+
+    /**
+     * Understands how to create structure from tokens
+     *
+     * @constructor
+     */
     function Parser() {
         this.definitions = {
             'plain-text': function(result) {
@@ -12,6 +26,12 @@
     }
 
     Parser.prototype = {
+        /**
+         * Parse tokens to structure against known definitions
+         *
+         * @param {TokenContainer} tokens
+         * @returns {CodePart}
+         */
         parse: function(tokens) {
             var result = CodePart.createBase(),
                 token,
@@ -34,6 +54,12 @@
             return result;
         },
 
+        /**
+         * Add new known definition of token
+         *
+         * @param {string} type
+         * @param {Function} func
+         */
         addDefinition: function(type, func) {
             this.definitions[type] = func;
         }
