@@ -1,40 +1,23 @@
-(function() {
-    'use strict';
-
-    /**
-     * Understands structure of template
-     *
-     * @constructor
-     */
-    function CodeStructure() {
+/**
+ * Understands structure of template
+ */
+export default class CodeStructure {
+    constructor() {
         this.children = [];
     }
 
     /**
-     * Create root code part
+     * Add new element to this structure
      *
-     * @returns {CodeStructure}
+     * @param {String} type
+     * @param {*} [data]
+     * @param {CodeStructure} [codePart]
      */
-    CodeStructure.createBase = function() {
-        return new CodeStructure();
-    };
-
-    CodeStructure.prototype = {
-        /**
-         * Add new element to this structure
-         *
-         * @param {String} type
-         * @param {*} [data]
-         * @param {CodeStructure} [codePart]
-         */
-        add: function(type, data, codePart) {
-            this.children.push({
-                type: type,
-                data: data,
-                children: codePart || null
-            });
-        }
-    };
-
-    module.exports = CodeStructure;
-}());
+    add(type, data, codePart) {
+        this.children.push({
+            type: type,
+            data: data,
+            children: codePart || null
+        });
+    }
+}

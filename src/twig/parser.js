@@ -1,82 +1,24 @@
-(function() {
-    'use strict';
+import Parser from '../parser';
 
-    var Parser = require('../parser'),
-        twigParser = new Parser();
-
-    /**
-     * Build rule to detect if token is specified block
-     *
-     * @param {String} name
-     * @returns {Function}
-     */
-    function findBlock(name) {
-        return function(token) {
-            return token.type === 'block' && token.name === name;
-        };
-    }
-
-    twigParser.blocks = {};
-    twigParser.filters = {}; // @TODO: move to rendering engine
-    twigParser.functions = {}; // @TODO: move to rendering engine
-
-
-    /**
-     * Add new block definition
-     *
-     * @param {String} name
-     * @param {Function} func  understands how this block should be detected within tokens
-     */
-    twigParser.addBlock = function(name, func) {
-        twigParser.blocks[name] = func;
+/**
+ * Build rule to detect if token is specified block
+ *
+ * @param {String} name
+ * @returns {Function}
+ */
+function findBlock(name) {
+    return function(token) {
+        return token.type === 'block' && token.name === name;
     };
+}
 
-    /**
-     * Add new filter available in engine
-     *
-     * @TODO: move to rendering engine
-     * @param {String} name
-     * @param {Function} func
-     */
-    twigParser.addFilter = function(name, func) {
-        twigParser.filters[name] = func;
-    };
-
-    /**
-     * Add new function available in engine
-     *
-     * @TODO: move to rendering engine
-     * @param {String} name
-     * @param {Function} func
-     */
-    twigParser.addFunction = function(name, func) {
-        twigParser.functions[name] = func;
-    };
-
-    // Basic definitions
-
-    /**
-     * Define how `block` should be parsed
-     * Search if there is available block and call its definition
-     *
-     * @throws {Error}  if it's unknown block
-     */
-    twigParser.addDefinition('block', function(result, i, tokens, parser) {
-        if (!twigParser.blocks[this.name]) {
-            throw new Error('Incorrect block: `' + this.name + '` definition not found');
-        }
-
-        return twigParser.blocks[this.name].call(this, result, i, tokens, parser);
-    });
-
-    // Block definitions
-
+const BLOCKS = {
     /**
      * Define conditional block
      *
      * @throws {Error} if closing is not found
      */
-    twigParser.addBlock('if', function(result, i, tokens, parser) {
+    'if': function(result, i, tokens, parser) {
         var currentNegations = [],
             currentToken = this,
             currentIndex;
@@ -135,7 +77,36 @@
         }
 
         tokens.go(currentIndex);
-    });
+    }
+};
 
-    module.exports = twigParser;
-}());
+const DEFINITIONS = {
+    /**
+     * Define how `block` should be parsed
+     * Search if there is available block and call its definition
+     *
+     * @throws {Error}  if it's unknown block
+     */
+    block: function(result, i, tokens, parser) {
+        if (!BLOCKS[this.name]) {
+            throw new Error('Incorrect block: `' + this.name + '` definition not found');
+        }
+
+        return BLOCKS[this.name].call(this, result, i, tokens, parser);
+    }
+};
+
+var attachedDefinitions = false;
+
+export default class TwigParser extends Parser {
+    get definitions() {
+        if (!attachedDefinitions) {
+            attachedDefinitions = true;
+            Object.keys(super.definitions).forEach((key) => {
+                DEFINITIONS[key] = super.definitions[key];
+            });
+        }
+
+        return DEFINITIONS;
+    }
+}

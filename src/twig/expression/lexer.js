@@ -1,10 +1,6 @@
-(function() {
-    'use strict';
+import Lexer from '../../lexer';
 
-    var Lexer = require('../../lexer'),
-        ExpressionLexer = new Lexer();
+// @TODO: Build Twig expression lexer & parser
+export default class ExpressionLexer extends Lexer {
 
-    // @TODO: Build Twig expression lexer & parser
-
-    module.exports = ExpressionLexer;
-}());
+}

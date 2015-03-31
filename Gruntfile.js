@@ -41,17 +41,23 @@ module.exports = function(grunt) {
             test: {
                 options: {
                     reporter: 'spec',
-                    require: 'test/blanket'
+                    require: [
+                        'test/blanket',
+                        'babel/register'
+                    ]
                 },
-                src: [ '!test/blanket.js', 'test/**/*.js' ]
+                src: [ 'test/spec/**/*.js' ]
             },
             coverage: {
                 options: {
                     reporter: 'html-cov',
                     quiet: true,
+                    require: [
+                        'babel/register'
+                    ],
                     captureFile: 'coverage.html'
                 },
-                src: [ '!test/blanket.js', 'test/**/*.js' ]
+                src: [ 'test/spec/**/*.js' ]
             }
         }
     });

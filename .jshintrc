@@ -8,7 +8,6 @@
         "afterEach": false,
         "xit": false,
         "xdescribe": false,
-        "expect": false,
 
         // Modules
         "module": true,
@@ -17,6 +16,7 @@
     },
 
     "node": true,
+    "esnext": true,
 
     "camelcase": true,
     "eqeqeq": true,
@@ -24,7 +24,6 @@
     "latedef": true,
     "newcap": true,
     "quotmark": "single",
-    "strict": true,
     "undef": true,
     "unused": true,
     "curly": true,

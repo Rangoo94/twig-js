@@ -1,15 +1,17 @@
-(function() {
-    'use strict';
+import Engine from '../engine';
+import TwigLexer from './lexer';
+import TwigParser from './parser';
 
-    var Engine = require('../engine'),
-        twigLexer = require('../lexer'),
-        twigParser = require('../parser'),
-        twigEngine = new Engine(twigLexer, twigParser);
+export default class TwigEngine extends Engine {
+    constructor() {
+        super(new TwigLexer(), new TwigParser());
+    }
 
-
-    twigEngine.setInitialResult(function() {
+    get initial() {
         return '';
-    });
+    }
 
-    module.exports = twigEngine;
-}());
+    get definitions() {
+        return {};
+    }
+}

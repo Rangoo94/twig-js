@@ -2,7 +2,6 @@
 
 [![Travis](https://travis-ci.org/Rangoo94/twig-js.svg)](https://travis-ci.org/Rangoo94/twig-js)
 [![Code Climate](https://codeclimate.com/github/Rangoo94/twig-js/badges/gpa.svg)](https://codeclimate.com/github/Rangoo94/twig-js)
-[![Coverage Status](https://coveralls.io/repos/Rangoo94/twig-js/badge.svg)](https://coveralls.io/r/Rangoo94/twig-js)
 
 This library allow to parse Twig templates in JS.
 
@@ -13,6 +12,7 @@ When it will be finished, you'll get JS templates, which will allow to generate 
 ## Development
 
 To prepare development environment you need only to fire `npm install` and run `npm install -g grunt grunt-cli` to have Grunt installed globally.
+Using one of **JetBrains** editors, you can also use [Wallaby.js](http://wallabyjs.com) for continuous testing and coverage in editor.
 
 ### Workflow
 

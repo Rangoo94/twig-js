@@ -1,4 +1,6 @@
 {
+  "esnext": true,
+
   "disallowSpacesInsideParentheses": true,
   "disallowMixedSpacesAndTabs": true,
   "disallowTrailingWhitespace": true,

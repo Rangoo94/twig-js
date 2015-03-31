@@ -1,131 +1,125 @@
-(function() {
-    'use strict';
+import Lexer from '../lexer';
 
-    var Lexer = require('../lexer'),
-        trim = require('../trim'),
-        TwigLexer = new Lexer(),
+const WHITESPACES = [ ' ', '\t', '\n' ];
 
-        WHITESPACES = [ ' ', '\t', '\n' ];
+/**
+ * Find index of first whitespace character after specified index
+ *
+ * @param {String} str
+ * @param {Number} index
+ * @param {Boolean} [opposite] if true - not whitespace
+ * @returns {Number}
+ */
+function findWhitespace(str, index, opposite) {
+    while (index < str.length) {
+        index++;
 
-    /**
-     * Find index of first whitespace character after specified index
-     *
-     * @param {String} str
-     * @param {Number} index
-     * @returns {Number}
-     */
-    function findWhitespace(str, index) {
-        while (index < str.length) {
-            index++;
-
-            if (WHITESPACES.indexOf(str.charAt(index)) !== -1) {
-                return index;
-            }
+        if ((opposite ? 1 : 0) - (WHITESPACES.indexOf(str.charAt(index)) !== -1)) {
+            return index;
         }
-
-        return -1;
     }
 
-    /**
-     * Find index of first character after specified index which is not whitespace
-     *
-     * @param {String} str
-     * @param {Number} index
-     * @returns {Number}
-     */
-    function findNotWhitespace(str, index) {
-        while (index < str.length) {
-            index++;
+    return -1;
+}
 
-            if (WHITESPACES.indexOf(str.charAt(index)) === -1) {
-                return index;
-            }
-        }
+/**
+ * Find index of first character after specified index which is not whitespace
+ *
+ * @param {String} str
+ * @param {Number} index
+ * @returns {Number}
+ */
+function findNotWhitespace(str, index) {
+    return findWhitespace(str, index, true);
+}
 
-        return -1;
+/**
+ * Understands how Twig expressions are built in plain code
+ */
+function buildExpressions(code, index) {
+    var expression,
+        endIndex;
+
+    if (code.substr(index, 2) === '{{') {
+        index += 2;
+
+        endIndex = code.indexOf('}}', index);
+
+        // @TODO: use ExpressionLexer
+        expression = code.substr(index, endIndex - index);
+
+        return {
+            type: 'expression',
+            expression: expression,
+            end: endIndex + 2
+        };
     }
 
-    /**
-     * Understands how nodes are built in plain code
-     */
-    //TwigLexer.add(function(code, index) {
-    //    if (code.charAt(index) === '<') {
-    //
-    //    }
-    //
-    //    return null;
-    //});
+    return null;
+}
 
-    /**
-     * Understands how Twig blocks are built in plain code
-     */
-    TwigLexer.add(function(code, index) {
-        var expression,
-            endIndex,
-            name;
+/**
+ * Understands how Twig blocks are built in plain code
+ */
+function buildBlocks(code, index) {
+    var expression,
+        endIndex,
+        name;
 
-        if (code.substr(index, 2) === '{%') {
-            index += 2;
+    if (code.substr(index, 2) === '{%') {
+        index += 2;
 
-            index = findNotWhitespace(code, index);
+        index = findNotWhitespace(code, index);
 
-            if (index === -1 || code.substr(index, 2) === '%}') {
-                throw new Error('Incorrect block: name not found'); // @TODO: add line and column
-            }
-
-            endIndex = findWhitespace(code, index);
-
-            if (endIndex === -1) {
-                throw new Error('Incorrect block: whitespace on end not found'); // @TODO: add line and column
-            }
-
-            name = code.substr(index, endIndex - index);
-
-            index = endIndex + 1; // + whitespace, not needed
-
-            endIndex = code.indexOf('%}', index); // @TODO: allow strings with this text meanwhile
-
-            if (endIndex === -1) {
-                throw new Error('Incorrect block: closing not found'); // @TODO: add line and column
-            }
-
-            expression = trim(code.substr(index, endIndex - index));
-
-            return {
-                type: 'block',
-                name: name,
-                expression: expression === '' ? null : expression,
-                end: endIndex + 2
-            };
+        if (index === -1 || code.substr(index, 2) === '%}') {
+            throw new Error('Incorrect block: name not found'); // @TODO: add line and column
         }
 
-        return null;
-    });
+        endIndex = findWhitespace(code, index);
 
-    /**
-     * Understands how Twig expressions are built in plain code
-     */
-    TwigLexer.add(function(code, index) {
-        var expression,
-            endIndex;
-
-        if (code.substr(index, 2) === '{{') {
-            index += 2;
-
-            endIndex = code.indexOf('}}', index);
-
-            // @TODO: use ExpressionLexer
-            expression = code.substr(index, endIndex - index);
-
-            return {
-                type: 'expression',
-                expression: expression,
-                end: endIndex + 2
-            };
+        if (endIndex === -1) {
+            throw new Error('Incorrect block: whitespace on end not found'); // @TODO: add line and column
         }
 
-        return null;
-    });
+        name = code.substr(index, endIndex - index);
 
-    module.exports = TwigLexer;
-}());
+        index = endIndex + 1; // + whitespace, not needed
+
+        endIndex = code.indexOf('%}', index); // @TODO: allow strings with this text meanwhile
+
+        if (endIndex === -1) {
+            throw new Error('Incorrect block: closing not found'); // @TODO: add line and column
+        }
+
+        expression = code.substr(index, endIndex - index).trim();
+
+        return {
+            type: 'block',
+            name: name,
+            expression: expression === '' ? null : expression,
+            end: endIndex + 2
+        };
+    }
+
+    return null;
+}
+
+/**
+ * Understands how nodes are built in plain code
+ */
+//function buildNodes(code, index) {
+//    if (code.charAt(index) === '<') {
+//
+//    }
+//
+//    return null;
+//}
+
+export default class TwigLexer extends Lexer {
+    setupDefinitions() {
+        return [
+            buildBlocks,
+            buildExpressions
+        ];
+    }
+}
