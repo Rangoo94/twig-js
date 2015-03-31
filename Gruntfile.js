@@ -41,21 +41,7 @@ module.exports = function(grunt) {
             test: {
                 options: {
                     reporter: 'spec',
-                    require: [
-                        'test/blanket',
-                        'babel/register'
-                    ]
-                },
-                src: [ 'test/spec/**/*.js' ]
-            },
-            coverage: {
-                options: {
-                    reporter: 'html-cov',
-                    quiet: true,
-                    require: [
-                        'babel/register'
-                    ],
-                    captureFile: 'coverage.html'
+                    require: 'babel/register'
                 },
                 src: [ 'test/spec/**/*.js' ]
             }
@@ -69,9 +55,5 @@ module.exports = function(grunt) {
 
     grunt.registerTask('test', [
         'mochaTest:test'
-    ]);
-
-    grunt.registerTask('html-coverage', [
-        'mochaTest'
     ]);
 };
