@@ -1,6 +1,18 @@
 import Lexer from '../../lexer';
 
-// @TODO: Build Twig expression lexer & parser
-export default class ExpressionLexer extends Lexer {
+const DEFINITIONS = [
+    function buildVariables(code) {
+        return {
+            type: 'variable',
+            name: code,
+            end: code.length
+        };
+    }
+];
 
+// @TODO: Build real Twig expression lexer instead of that whole string is variable name
+export default class TwigExpressionLexer extends Lexer {
+    get definitions() {
+        return DEFINITIONS;
+    }
 }

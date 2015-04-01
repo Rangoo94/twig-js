@@ -30,17 +30,18 @@ export default class Engine {
      * @returns {CodeStructure}
      */
     parseToStructure(code) {
-        this.parser.parse(this.lexer.parse(code));
+        return this.parser.parse(this.lexer.parse(code));
     }
 
     /**
      * Parse structure to understandable result
      *
      * @param {CodeStructure} structure
+     * @param {*} [data]
      * @returns {*}
      */
-    parse(structure) {
-        var result = this.getInitialResult(),
+    parse(structure, data) {
+        var result = this.initial,
             token,
             i;
 
@@ -48,7 +49,7 @@ export default class Engine {
             token = structure.children[i];
 
             if (this.definitions[token.type]) {
-                result = this.definitions[token.type].call(token, result, i, structure, this);
+                result = this.definitions[token.type].call(token, result, data, i, structure, this);
             } else {
                 throw new Error('There isn\'t any definition for `' + token.type + '` token');
             }
@@ -61,9 +62,10 @@ export default class Engine {
      * Alias for `parse` method to parse plain code
      *
      * @param {String} code
+     * @param {*} [data]
      * @returns {*}
      */
-    parseFromString(code) {
-        return this.parse(this.parseToStructure(code));
+    parseFromString(code, data) {
+        return this.parse(this.parseToStructure(code), data);
     }
 }

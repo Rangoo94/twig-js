@@ -4,14 +4,6 @@ import TokenContainer from './token-container';
  * Understands how to prepare tokens from plain code
  */
 export default class Lexer {
-    constructor() {
-        this.definitions = this.setupDefinitions();
-    }
-
-    setupDefinitions() {
-        return [];
-    }
-
     /**
      * Parse code by known definitions to tokens
      *

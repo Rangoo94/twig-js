@@ -33,93 +33,92 @@ function findNotWhitespace(str, index) {
     return findWhitespace(str, index, true);
 }
 
-/**
- * Understands how Twig expressions are built in plain code
- */
-function buildExpressions(code, index) {
-    var expression,
-        endIndex;
+const DEFINITIONS = [
+    /**
+     * Understands how Twig expressions are built in plain code
+     */
+    function buildExpressions(code, index) {
+        var expression,
+            endIndex;
 
-    if (code.substr(index, 2) === '{{') {
-        index += 2;
+        if (code.substr(index, 2) === '{{') {
+            index += 2;
 
-        endIndex = code.indexOf('}}', index);
+            endIndex = code.indexOf('}}', index);
 
-        // @TODO: use ExpressionLexer
-        expression = code.substr(index, endIndex - index);
+            // @TODO: use ExpressionLexer
+            expression = code.substr(index, endIndex - index);
 
-        return {
-            type: 'expression',
-            expression: expression,
-            end: endIndex + 2
-        };
+            return {
+                type: 'expression',
+                expression: expression,
+                end: endIndex + 2
+            };
+        }
+
+        return null;
+    },
+
+    /**
+     * Understands how Twig blocks are built in plain code
+     */
+    function buildBlocks(code, index) {
+        var expression,
+            endIndex,
+            name;
+
+        if (code.substr(index, 2) === '{%') {
+            index += 2;
+
+            index = findNotWhitespace(code, index);
+
+            if (index === -1 || code.substr(index, 2) === '%}') {
+                throw new Error('Incorrect block: name not found'); // @TODO: add line and column
+            }
+
+            endIndex = findWhitespace(code, index);
+
+            if (endIndex === -1) {
+                throw new Error('Incorrect block: whitespace on end not found'); // @TODO: add line and column
+            }
+
+            name = code.substr(index, endIndex - index);
+
+            index = endIndex + 1; // + whitespace, not needed
+
+            endIndex = code.indexOf('%}', index); // @TODO: allow strings with this text meanwhile
+
+            if (endIndex === -1) {
+                throw new Error('Incorrect block: closing not found'); // @TODO: add line and column
+            }
+
+            expression = code.substr(index, endIndex - index).trim();
+
+            return {
+                type: 'block',
+                name: name,
+                expression: expression === '' ? null : expression,
+                end: endIndex + 2
+            };
+        }
+
+        return null;
+    },
+
+    /**
+     * Understands how nodes are built in plain code
+     */
+    function buildNodes(code, index) {
+        if (code.charAt(index) === '<') {
+            return null;
+        }
+
+        return null;
     }
-
-    return null;
-}
-
-/**
- * Understands how Twig blocks are built in plain code
- */
-function buildBlocks(code, index) {
-    var expression,
-        endIndex,
-        name;
-
-    if (code.substr(index, 2) === '{%') {
-        index += 2;
-
-        index = findNotWhitespace(code, index);
-
-        if (index === -1 || code.substr(index, 2) === '%}') {
-            throw new Error('Incorrect block: name not found'); // @TODO: add line and column
-        }
-
-        endIndex = findWhitespace(code, index);
-
-        if (endIndex === -1) {
-            throw new Error('Incorrect block: whitespace on end not found'); // @TODO: add line and column
-        }
-
-        name = code.substr(index, endIndex - index);
-
-        index = endIndex + 1; // + whitespace, not needed
-
-        endIndex = code.indexOf('%}', index); // @TODO: allow strings with this text meanwhile
-
-        if (endIndex === -1) {
-            throw new Error('Incorrect block: closing not found'); // @TODO: add line and column
-        }
-
-        expression = code.substr(index, endIndex - index).trim();
-
-        return {
-            type: 'block',
-            name: name,
-            expression: expression === '' ? null : expression,
-            end: endIndex + 2
-        };
-    }
-
-    return null;
-}
-
-/**
- * Understands how nodes are built in plain code
- */
-//function buildNodes(code, index) {
-//    if (code.charAt(index) === '<') {
-//
-//    }
-//
-//    return null;
-//}
+];
 
 export default class TwigLexer extends Lexer {
-    setupDefinitions() {
-        return [
-            buildBlocks,
-            buildExpressions
-        ];
+    get definitions() {
+        return DEFINITIONS;
     }
 }
