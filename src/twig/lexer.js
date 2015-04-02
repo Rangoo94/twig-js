@@ -2,6 +2,29 @@ import Lexer from '../lexer';
 
 const WHITESPACES = [ ' ', '\t', '\n' ];
 
+// @TODO: Think about rewriting it to regular expressions
+
+/**
+ * Find index of first character from array after specified index
+ *
+ * @param {String} str
+ * @param {Number} index
+ * @param {Array} characters
+ * @param {Boolean} [opposite] if true - not whitespace
+ * @returns {Number}
+ */
+function indexOf(str, index, characters, opposite) {
+    while (index < str.length) {
+        index++;
+
+        if ((opposite ? 1 : 0) - (characters.indexOf(str.charAt(index)) !== -1)) {
+            return index;
+        }
+    }
+
+    return -1;
+}
+
 /**
  * Find index of first whitespace character after specified index
  *
@@ -11,15 +34,7 @@ const WHITESPACES = [ ' ', '\t', '\n' ];
  * @returns {Number}
  */
 function findWhitespace(str, index, opposite) {
-    while (index < str.length) {
-        index++;
-
-        if ((opposite ? 1 : 0) - (WHITESPACES.indexOf(str.charAt(index)) !== -1)) {
-            return index;
-        }
-    }
-
-    return -1;
+    return indexOf(str, index, WHITESPACES, opposite);
 }
 
 /**
@@ -92,7 +107,7 @@ const DEFINITIONS = [
                 throw new Error('Incorrect block: closing not found'); // @TODO: add line and column
             }
 
-            expression = code.substr(index, endIndex - index).trim();
+            expression = code.substring(index, endIndex).trim();
 
             return {
                 type: 'block',
@@ -110,7 +125,76 @@ const DEFINITIONS = [
      */
     function buildNodes(code, index) {
         if (code.charAt(index) === '<') {
-            return null;
+            if (code.charAt(index + 1) === '/') {
+                let idx = code.indexOf('>', index + 1);
+
+                return {
+                    type: 'node_closing',
+                    tag: code.substring(index + 2, idx).trim(),
+                    end: idx + 1
+                };
+            } else {
+                let currentIdx = indexOf(code, index, WHITESPACES.concat([ '>' ])),
+                    closingIdx,
+                    attributes = {},
+                    attrIdx,
+                    attribute,
+                    tag;
+
+                if (currentIdx === -1) {
+                    throw new Error('Not found closing of node');
+                }
+
+                tag = code.substring(index + 1, currentIdx).trim();
+
+                closingIdx = code.indexOf('>', currentIdx);
+
+                if (closingIdx === -1) {
+                    throw new Error('Not found closing of node');
+                }
+
+                attrIdx = indexOf(code, currentIdx, WHITESPACES.concat([ '>', '=' ]));
+
+                while (attrIdx <= closingIdx) {
+                    attribute = {
+                        name: code.substring(currentIdx, attrIdx).trim()
+                    };
+
+                    if (code.charAt(attrIdx) === '=') {
+                        let startIdx,
+                            endIdx;
+
+                        if (code.charAt(attrIdx + 1) === '"') {
+                            startIdx = attrIdx + 2;
+                            endIdx = code.indexOf('"', startIdx);
+                        } else if (code.charAt(attrIdx + 1) === '\'') {
+                            startIdx = attrIdx + 2;
+                            endIdx = code.indexOf('\'', startIdx);
+                        } else {
+                            startIdx = attrIdx + 1;
+                            endIdx = indexOf(code, attrIdx, WHITESPACES.concat([ '>' ]));
+                        }
+
+                        attribute.value = code.substring(startIdx, endIdx);
+                        attrIdx = endIdx + 1;
+                    } else {
+                        attribute.value = null;
+                        attrIdx++;
+                    }
+
+                    currentIdx = attrIdx;
+                    attrIdx = indexOf(code, attrIdx, WHITESPACES.concat([ '>', '=' ]));
+
+                    attributes[attribute.name] = attribute.value;
+                }
+
+                return {
+                    type: 'node_opening',
+                    tag: tag,
+                    attributes: attributes,
+                    end: closingIdx + 1
+                };
+            }
         }
 
         return null;
