@@ -1,9 +1,21 @@
 import TokenContainer from './token-container';
+import Definitions from './definitions';
 
 /**
  * Understands how to prepare tokens from plain code
  */
 export default class Lexer {
+    constructor() {
+        this.definitions = new Definitions();
+        this.prepareDefinitions();
+    }
+
+    /**
+     * Prepare definitions here
+     */
+    prepareDefinitions() {
+    }
+
     /**
      * Parse code by known definitions to tokens
      *
@@ -11,21 +23,23 @@ export default class Lexer {
      * @returns {TokenContainer}
      */
     parse(code) {
-        var tokens = new TokenContainer(),
-            result;
+        var tokens = new TokenContainer();
 
         for (var i = 0; i < code.length; i++) {
-            for (var def = 0; def < this.definitions.length; def++) {
-                result = this.definitions[def].call(this, code, i, tokens);
+            let found = false;
+
+            this.definitions.each((definition, name, iterator) => {
+                let result = definition.run(code, i, tokens);
 
                 if (result !== null) {
                     tokens.add(result);
                     i = result.end - 1;
-                    break;
+                    iterator.stop();
+                    found = true;
                 }
-            }
+            });
 
-            if (def === this.definitions.length) {
+            if (!found) {
                 tokens.addPlainText(code.charAt(i));
             }
         }
