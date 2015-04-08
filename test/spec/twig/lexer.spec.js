@@ -87,6 +87,18 @@ describe('Twig#Lexer', () => {
         expect(tokens[0].attributes.class).to.be('something');
     });
 
+    it('should find basic node with single-quoted attributes also', () => {
+        var tokens = lexer.parse('<b style="font-style: italic" class=\'something\'>lorem ipsum dolor</b>').tokens;
+
+        expect(tokens[0].type).to.be('node_opening');
+        expect(tokens[0].tag).to.be('b');
+
+        expect(count(tokens[0].attributes)).to.be(2);
+
+        expect(tokens[0].attributes.style).to.be('font-style: italic');
+        expect(tokens[0].attributes.class).to.be('something');
+    });
+
     it('should replace attribute value if it occurs twice', () => {
         var tokens = lexer.parse('<b class="unknown" style="font-style: italic" class="something">lorem ipsum dolor</b>').tokens;
 
@@ -111,6 +123,19 @@ describe('Twig#Lexer', () => {
         expect(tokens[0].attributes['data-value']).to.be(null);
     });
 
+    it('should find attributes with value with no quotes', () => {
+        var tokens = lexer.parse('<b style="font-style: italic" data-value=30 data-another>lorem ipsum dolor</b>').tokens;
+
+        expect(tokens[0].type).to.be('node_opening');
+        expect(tokens[0].tag).to.be('b');
+
+        expect(count(tokens[0].attributes)).to.be(3);
+
+        expect(tokens[0].attributes.style).to.be('font-style: italic');
+        expect(tokens[0].attributes['data-value']).to.be('30');
+        expect(tokens[0].attributes['data-another']).to.be(null);
+    });
+
     it('should throw error that closing of block hasn\'t been found', () => {
         expect(() => {
             lexer.parse('lorem ipsum{% if x %} dolor sit amet{% endif  ');
@@ -119,7 +144,34 @@ describe('Twig#Lexer', () => {
 
     it('should throw error that block name hasn\'t been found', () => {
         expect(() => {
-            lexer.parse('lorem ipsum{%    %} dolor sit amet{% endif %}');
+            lexer.parse('lorem ipsum{%    %} dolor sit amet');
         }).to.throwError();
+
+        expect(() => {
+            lexer.parse('lorem ipsum {%%}dolor');
+        }).to.throwError();
+    });
+
+    it('should throw error that closing of node hasn\'t been found', () => {
+        expect(() => {
+            lexer.parse('lorem ipsum<a href="#"');
+        }).to.throwError();
+
+        expect(() => {
+            lexer.parse('lorem ipsum<a');
+        }).to.throwError();
+    });
+
+    it('should parse expressions', () => {
+        var tokens = lexer.parse('something{{ variable }}another').tokens;
+
+        expect(tokens.length).to.be(3);
+
+        expect(tokens[0].type).to.be('plain-text');
+
+        expect(tokens[1].type).to.be('expression');
+        expect(tokens[1].expression).to.be(' variable ');
+
+        expect(tokens[2].type).to.be('plain-text');
     });
 });

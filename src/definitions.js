@@ -4,6 +4,13 @@ export default class Definitions {
     }
 
     /**
+     * Remove all definitions
+     */
+    clear() {
+        this.defs = {};
+    }
+
+    /**
      * Reset enabled definitions to default
      */
     reset() {
@@ -94,7 +101,7 @@ export default class Definitions {
         };
 
         for (var name in this.defs) {
-            if (this.defs.hasOwnProperty(name)) {
+            if (this.defs.hasOwnProperty(name) && this.defs[name].enabled) {
                 func.call(null, this.defs[name], name, iterator);
 
                 if (stop) {

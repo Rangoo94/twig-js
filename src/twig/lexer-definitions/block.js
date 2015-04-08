@@ -1,9 +1,12 @@
 import { findWhitespace, findNotWhitespace } from '../../utils';
+import LexerError from '../../lexer-error';
+
 /**
  * Understands how Twig blocks are built in plain code
  */
 export default function buildBlocks(code, index) {
     var expression,
+        startIndex = index,
         endIndex,
         name;
 
@@ -13,13 +16,13 @@ export default function buildBlocks(code, index) {
         index = findNotWhitespace(code, index);
 
         if (index === -1 || code.substr(index, 2) === '%}') {
-            throw new Error('Incorrect block: name not found'); // @TODO: add line and column
+            throw new LexerError('Incorrect block: name not found', startIndex, code);
         }
 
         endIndex = findWhitespace(code, index);
 
         if (endIndex === -1) {
-            throw new Error('Incorrect block: whitespace on end not found'); // @TODO: add line and column
+            throw new LexerError('Incorrect block: whitespace on end not found', startIndex, code);
         }
 
         name = code.substr(index, endIndex - index);
@@ -29,7 +32,7 @@ export default function buildBlocks(code, index) {
         endIndex = code.indexOf('%}', index); // @TODO: allow strings with this text meanwhile
 
         if (endIndex === -1) {
-            throw new Error('Incorrect block: closing not found'); // @TODO: add line and column
+            throw new LexerError('Incorrect block: closing not found', startIndex, code);
         }
 
         expression = code.substring(index, endIndex).trim();

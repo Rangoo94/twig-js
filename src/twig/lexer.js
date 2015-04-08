@@ -5,8 +5,8 @@ import buildNodes from './lexer-definitions/node';
 
 export default class TwigLexer extends Lexer {
     prepareDefinitions() {
-        this.definitions.add('expression', buildExpressions);
-        this.definitions.add('block', buildBlocks);
-        this.definitions.add('node', buildNodes);
+        this.definitions.add('expression', buildExpressions, true);
+        this.definitions.add('block', buildBlocks, true);
+        this.definitions.add('node', buildNodes, true);
     }
 }

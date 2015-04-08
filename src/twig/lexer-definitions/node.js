@@ -1,4 +1,5 @@
 import { indexOf, WHITESPACES } from '../../utils';
+import LexerError from '../../lexer-error';
 
 /**
  * Understands how nodes are built in plain code
@@ -22,7 +23,7 @@ export default function buildNodes(code, index) {
                 tag;
 
             if (currentIdx === -1) {
-                throw new Error('Not found closing of node');
+                throw new LexerError('Incorrect node: not found closing', index, code);
             }
 
             tag = code.substring(index + 1, currentIdx).trim();
@@ -30,7 +31,7 @@ export default function buildNodes(code, index) {
             closingIdx = code.indexOf('>', currentIdx);
 
             if (closingIdx === -1) {
-                throw new Error('Not found closing of node');
+                throw new LexerError('Incorrect node: not found closing', index, code);
             }
 
             attrIdx = indexOf(code, currentIdx, WHITESPACES.concat([ '>', '=' ]));

@@ -15,6 +15,14 @@ describe('Twig#Parser', () => {
         expect(structure.children[0].data).to.be('lorem ipsum dolor sit amet');
     });
 
+    it('should detect unknown block', () => {
+        var tokens = lexer.parse('lorem ipsum dolor sit amet{% unknown %}');
+
+        expect(() => {
+            parser.parse(tokens);
+        }).to.throwError();
+    });
+
     it('should parse basic `if` structure', () => {
         var tokens = lexer.parse('{% if x %}lorem ipsum dolor sit amet{% endif %}'),
             structure;
@@ -66,5 +74,31 @@ describe('Twig#Parser', () => {
         expect(structure.children[2].children.children.length).to.be(1);
         expect(structure.children[2].children.children[0].type).to.be('plain-text');
         expect(structure.children[2].children.children[0].children).to.be(null);
+    });
+
+    it('should detect that there is no `if` block closing', () => {
+        var tokens = lexer.parse('lorem ipsum dolor sit amet{% if %}kokokoko');
+
+        expect(() => {
+            parser.parse(tokens);
+        }).to.throwError();
+    });
+
+    it('should detect that there is no `if` block closing (after `else`)', () => {
+        var tokens = lexer.parse('lorem ipsum dolor sit amet{% if %}kokokoko{% else %}aaa');
+
+        expect(() => {
+            parser.parse(tokens);
+        }).to.throwError();
+    });
+
+    it('should detect unknown token', () => {
+        var tokens = lexer.parse('lorem ipsum dolor sit amet{% if %}kokokoko');
+
+        tokens.tokens[1].type = 'unknown';
+
+        expect(() => {
+            parser.parse(tokens);
+        }).to.throwError();
     });
 });

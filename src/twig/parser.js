@@ -102,6 +102,7 @@ export default class TwigParser extends Parser {
     get definitions() {
         if (!attachedDefinitions) {
             attachedDefinitions = true;
+
             Object.keys(super.definitions).forEach((key) => {
                 DEFINITIONS[key] = super.definitions[key];
             });

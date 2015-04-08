@@ -12,6 +12,7 @@ function buildVariables(code) {
 // @TODO: Build real Twig expression lexer instead of that whole string is variable name
 export default class TwigExpressionLexer extends Lexer {
     prepareDefinitions() {
-        this.definitions.add('variable', buildVariables);
+        this.definitions.clear();
+        this.definitions.add('variable', buildVariables, true);
     }
 }
