@@ -1,5 +1,4 @@
 import Lexer from '../../lexer';
-import Definitions from '../../definitions';
 
 function buildVariables(code) {
     return {
