@@ -23,15 +23,25 @@ export default class Definitions {
      * Enable specified definition
      *
      * @param {String|Array} name
+     * @param {Boolean} [state]
      */
-    enable(name) {
+    changeState(name, state) {
         if (typeof name === 'string') {
             name = [ name ];
         }
 
         for (var i = 0; i < name.length; i++) {
-            this.defs[name[i]].enabled = true;
+            this.defs[name[i]].enabled = state;
         }
+    }
+
+    /**
+     * Enable specified definition
+     *
+     * @param {String|Array} name
+     */
+    enable(name) {
+        this.changeState(name, true);
     }
 
     /**
@@ -59,13 +69,7 @@ export default class Definitions {
      * @param {String|Array} name
      */
     disable(name) {
-        if (typeof name === 'string') {
-            name = [ name ];
-        }
-
-        for (var i = 0; i < name.length; i++) {
-            this.defs[name[i]].enabled = false;
-        }
+        this.changeState(name, false);
     }
 
     /**
