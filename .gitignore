@@ -14,3 +14,4 @@ npm-debug.log
 
 # Generated files
 coverage.html
+coverage/
